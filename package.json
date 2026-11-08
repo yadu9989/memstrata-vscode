@@ -1,0 +1,161 @@
+{
+  "name": "memstrata-cl1-workspace",
+  "displayName": "MemStrata CL1 Workspace",
+  "description": "Connect a trusted workspace to the MemStrata™ app for scoped CL1 context and source inspection.",
+  "version": "0.2.0",
+  "publisher": "NeerajYadav9991",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yadu9989/memstrata-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yadu9989/memstrata-vscode/issues"
+  },
+  "homepage": "https://github.com/yadu9989/memstrata-vscode#readme",
+  "engines": {
+    "vscode": "^1.136.1"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "memstrata-cl1",
+          "title": "MemStrata CL1",
+          "icon": "media/database.svg"
+        }
+      ]
+    },
+    "views": {
+      "memstrata-cl1": [
+        {
+          "type": "webview",
+          "id": "memstrataCl1.sidebar",
+          "name": "Workspace memory"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "memstrataCl1.connectLocal",
+        "title": "MemStrata CL1: Connect to local Assistant"
+      },
+      {
+        "command": "memstrataCl1.configure",
+        "title": "MemStrata CL1: Enable this workspace and store grant"
+      },
+      {
+        "command": "memstrataCl1.clearGrant",
+        "title": "MemStrata CL1: Remove the stored grant for this URL and project"
+      },
+      {
+        "command": "memstrataCl1.refresh",
+        "title": "MemStrata CL1: Refresh source readiness"
+      },
+      {
+        "command": "memstrataCl1.context",
+        "title": "MemStrata CL1: Inspect exact context packet"
+      },
+      {
+        "command": "memstrataCl1.inspect",
+        "title": "MemStrata CL1: Inspect current source"
+      },
+      {
+        "command": "memstrataCl1.import",
+        "title": "MemStrata CL1: Import active editor as a source"
+      },
+      {
+        "command": "memstrataCl1.correct",
+        "title": "MemStrata CL1: Replace source from active editor"
+      },
+      {
+        "command": "memstrataCl1.delete",
+        "title": "MemStrata CL1: Delete a source"
+      }
+    ],
+    "configuration": {
+      "title": "MemStrata CL1",
+      "properties": {
+        "memstrataCl1.enabled": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "Enable owner-invoked CL1 commands in this trusted workspace. Capture and background synchronization are not enabled."
+        },
+        "memstrataCl1.baseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:9101",
+          "scope": "resource",
+          "description": "Provisioned scoped CL1 service. Remote connections require HTTPS."
+        },
+        "memstrataCl1.projectId": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Project bound to the provisioned grant. This label does not grant permission."
+        },
+        "memstrataCl1.profile": {
+          "type": "string",
+          "enum": [
+            "standard_7k",
+            "standard_8k",
+            "deep_24k"
+          ],
+          "default": "standard_8k",
+          "scope": "resource",
+          "description": "Evidence budget for context packets: standard_7k, standard_8k or deep_24k."
+        },
+        "memstrataCl1.sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "scope": "resource",
+          "description": "Optional source IDs to search (at most 128, no duplicates). Empty searches every ready source the grant allows."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "compile": "tsc --noEmit",
+    "test": "tsc --outDir out-test && node --test out-test/test/cl1Client.test.js out-test/test/extension.test.js",
+    "build": "node esbuild.config.js",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/vscode": "1.136.0",
+    "@vscode/vsce": "4.1.0",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3",
+    "vscode": "file:./test/mocks"
+  },
+  "keywords": [
+    "memstrata",
+    "memory",
+    "context",
+    "evidence",
+    "sources"
+  ],
+  "qna": "https://github.com/yadu9989/memstrata-vscode/issues",
+  "author": {
+    "name": "MemStrata",
+    "email": "support@memstrata.dev"
+  },
+  "icon": "media/icon.png"
+}
